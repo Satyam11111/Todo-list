@@ -1,0 +1,32 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        int bullCount = 0, cowCount = 0;
+        Map<Character, Integer> secretCount = new HashMap<>();
+
+        // Count bulls and initialize secretCount map
+        for (int i = 0; i < secret.length(); i++) {
+            char s = secret.charAt(i);
+            char g = guess.charAt(i);
+
+            if (s == g) {
+                bullCount++;
+            } else {
+                secretCount.put(s, secretCount.getOrDefault(s, 0) + 1);
+            }
+        }
+
+        // Count cows
+        for (int i = 0; i < guess.length(); i++) {
+            char s = secret.charAt(i);
+            char g = guess.charAt(i);
+
+            if (s != g && secretCount.containsKey(g) && secretCount.get(g) > 0) {
+                cowCount++;
+                secretCount.put(g, secretCount.get(g) - 1);
+            }
+        }
+
+        return bullCount + "A" + cowCount + "B";
+
+    }
+}
